@@ -11,8 +11,8 @@ const float kerSize = 11.0;
 
 vec3 post(vec3 I){
 
-  float cont = 1.6;
-  float bright = 0.1;
+  float cont = 1.4;
+  float bright = 0.0;
 
   I += bright;
   I = (I - 0.5) * max(0.0, cont) + 0.5;

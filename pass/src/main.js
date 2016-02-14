@@ -5,16 +5,16 @@ var $container
 var controls
 var stats
 
-var winWidth = window.innerWidth;
-var winHeight = window.innerHeight;
-var viewRatio = winWidth/winHeight;
+var winWidth = window.innerWidth
+var winHeight = window.innerHeight
+var viewRatio = winWidth/winHeight
 
 var rinit = 1000
 
-var pixelRatio = window.devicePixelRatio || 1;
-var viewWinWidth = 2.2*rinit;
-var viewWinHeight = viewWinWidth / viewRatio;
-console.log('screen ratio', viewRatio, viewWinWidth, viewWinHeight);
+var pixelRatio = window.devicePixelRatio || 1
+var viewWinWidth = 2.2*rinit
+var viewWinHeight = viewWinWidth / viewRatio
+console.log('screen ratio', viewRatio, viewWinWidth, viewWinHeight)
 
 
 // http://paulirish.com/2011/requestanimationframe-for-smart-animating/
@@ -58,27 +58,27 @@ console.log('screen ratio', viewRatio, viewWinWidth, viewWinHeight);
 
 function windowAdjust() {
 
-  winWidth = window.innerWidth;
-  winHeight = window.innerHeight;
-  offset = $container.offset();
-  pixelRatio = window.devicePixelRatio || 1;
+  winWidth = window.innerWidth
+  winHeight = window.innerHeight
+  offset = $container.offset()
+  pixelRatio = window.devicePixelRatio || 1
 
-  uniforms.pixelRatio.value = pixelRatio;
-  uniforms.window.value = [winWidth, winHeight];
+  uniforms.pixelRatio.value = pixelRatio
+  uniforms.window.value = [winWidth, winHeight]
 
-  renderer.setPixelRatio(pixelRatio);
-  renderer.setSize(winWidth,winHeight);
+  renderer.setPixelRatio(pixelRatio)
+  renderer.setSize(winWidth,winHeight)
 
-  camera.aspect = winWidth/winHeight;
-  camera.updateProjectionMatrix();
+  camera.aspect = winWidth/winHeight
+  camera.updateProjectionMatrix()
 
-  console.log('window', winWidth,winHeight);
-  console.log('pixel ratio', pixelRatio);
+  console.log('window', winWidth,winHeight)
+  console.log('pixel ratio', pixelRatio)
 
-  viewRatio = window.innerWidth/window.innerHeight;
-  viewWinWidth = 2*rinit;
-  viewWinHeight = viewWinHeight / viewRatio;
-  console.log('screen ratio', viewRatio, viewWinWidth, viewWinHeight);
+  viewRatio = window.innerWidth/window.innerHeight
+  viewWinWidth = 2*rinit
+  viewWinHeight = viewWinHeight / viewRatio
+  console.log('screen ratio', viewRatio, viewWinWidth, viewWinHeight)
 }
 
 $.when(
@@ -130,7 +130,7 @@ $.when(
       0,
       500
     );
-    cameraScreen.position.z = 100;
+    cameraScreen.position.z = 100
 
     camera = new THREE.PerspectiveCamera(
       40,
@@ -140,7 +140,7 @@ $.when(
     )
 
     scene = new THREE.Scene()
-    sceneScreen = new THREE.Scene();
+    sceneScreen = new THREE.Scene()
 
     var camTarget = new THREE.Vector3(0,0,0)
     var camStart = new THREE.Vector3(0,-1700,800)
@@ -156,7 +156,7 @@ $.when(
     renderer.setSize(winWidth,winHeight)
 
     scene.add(camera)
-    sceneScreen.add(cameraScreen);
+    sceneScreen.add(cameraScreen)
 
     uniforms = {
       itt: {
@@ -264,17 +264,17 @@ $.when(
         fragmentShader: screenFrag[0],
         uniforms: uniforms,
         transparent: true
-    });
+    })
 
     windowAdjust()
 
     var screenPlane = new THREE.PlaneBufferGeometry(
       winWidth,
       winHeight
-    );
-    screenQuad = new THREE.Mesh(screenPlane, screenMaterial);
-    screenQuad.position.z = -100;
-    sceneScreen.add(screenQuad);
+    )
+    screenQuad = new THREE.Mesh(screenPlane, screenMaterial)
+    screenQuad.position.z = -100
+    sceneScreen.add(screenQuad)
 
     var numGeo = 15
     var spread = 2000
@@ -337,14 +337,14 @@ $.when(
 
 
       renderer.setClearColor(new THREE.Color(0xFFFFFF), 1.0)
-      uniforms.screenTexture.value = screenTexture;
+      uniforms.screenTexture.value = screenTexture
 
       // render scene to texture
       uniforms.mode.value = 0.0
       renderer.render(scene, camera, screenTexture, true)
 
       //// render texture to screen
-      uniforms.mode.value = 0.0;
+      uniforms.mode.value = 0.0
       renderer.render(scene, camera, screenTexture, true)
 
       renderer.render(sceneScreen, cameraScreen)

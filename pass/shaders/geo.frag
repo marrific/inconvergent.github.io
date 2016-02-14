@@ -118,15 +118,15 @@ float getRdV(float lndn, vec3 n, vec3 ln, vec3 vn){
 vec3 phong(float vdist, float ldist, vec3 c, vec3 v, vec3 l, vec3 n){
 
   //// ambient
-  const vec3 ia = vec3(0.5);
+  const vec3 ia = vec3(0.1);
   vec3 ka = c;
 
   //// diffuse
-  const vec3 id = vec3(0.5);
+  const vec3 id = vec3(0.9);
   vec3 kd = c;
 
   //// specular
-  const vec3 is = vec3(0.0);
+  const vec3 is = vec3(0.3);
   vec3 ks = c;
   float shiny = 1.0;
 
@@ -139,22 +139,6 @@ vec3 phong(float vdist, float ldist, vec3 c, vec3 v, vec3 l, vec3 n){
 
   vec3 I = A+D+S;
 
-  return I;
-}
-
-vec3 banding(vec3 I, vec3 c, float d){
-  float rnd = snoise(vec2(d, 1.0));
-  if (mod(floor(d/2.0 + rnd),4.0)<0.001){
-    return c;
-  }
-  return I;
-}
-
-float opacityBanding(float I, float c, float d){
-  float rnd = snoise(vec2(d, 1.0));
-  if (mod(floor(d/2.0 + rnd),4.0)<0.001){
-    return c;
-  }
   return I;
 }
 
@@ -197,7 +181,6 @@ void main(){
   }
   else if (mode < 2.0){ // *1* // render normal map
     I = 0.5*(1.0+normalize(N));
-    opacity = 0.5;
   }
   else if (mode < 3.0){ // *2* // render depth difference map
     I = diffmap(vdist);
