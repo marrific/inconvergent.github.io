@@ -33,11 +33,10 @@ function Geometry(){
     for (i=0;i<vnum;i++){
       for (j=0;j<vnum;j++){
 
-        var z = 0.0
-
-        this.ndpositions.set(i,j,0,(i+0.5)/vnum*size)
-        this.ndpositions.set(i,j,1,(j+0.5)/vnum*size)
-        this.ndpositions.set(i,j,2,0)
+        var z = i*j*Math.cos(i*0.1) * Math.sin(j*0.1)*0.1
+        this.ndpositions.set(i,j,0,-size*0.5 + (i+0.5)/vnum*size)
+        this.ndpositions.set(i,j,2,-size*0.5 + (j+0.5)/vnum*size)
+        this.ndpositions.set(i,j,1,z)
 
         this.ndnormals.set(i,j,0,0)
         this.ndnormals.set(i,j,1,0)
@@ -68,23 +67,25 @@ function Geometry(){
         var upright = upleft+1
 
         this.ndindices.set(tri,0,lowleft)
-        this.ndindices.set(tri,1,upright)
-        this.ndindices.set(tri,2,lowright)
+        this.ndindices.set(tri,2,upright)
+        this.ndindices.set(tri,1,lowright)
         tri += 1
         this.ndindices.set(tri,0,lowleft)
-        this.ndindices.set(tri,1,upleft)
-        this.ndindices.set(tri,2,upright)
+        this.ndindices.set(tri,2,upleft)
+        this.ndindices.set(tri,1,upright)
         tri += 1
       }
     }
 
     this.geometry = new THREE.BufferGeometry()
 
-    this.geometry.setIndex( new THREE.BufferAttribute( this.indices, 1 ) );
-    this.geometry.addAttribute( 'position', new THREE.BufferAttribute( this.positions, 3 ) );
-    this.geometry.addAttribute( 'normal', new THREE.BufferAttribute( this.normals, 3 ) );
-    this.geometry.addAttribute( 'color', new THREE.BufferAttribute( this.colors, 3 ) );
+    this.geometry.setIndex(new THREE.BufferAttribute(this.indices, 1))
+    this.geometry.addAttribute('position', new THREE.BufferAttribute(this.positions, 3))
+    this.geometry.addAttribute('normal', new THREE.BufferAttribute(this.normals, 3))
+    this.geometry.addAttribute('color', new THREE.BufferAttribute(this.colors, 3))
     this.geometry.computeBoundingSphere()
+    this.geometry.computeFaceNormals()
+    this.geometry.computeVertexNormals()
 
     console.log(this.geometry)
   }
@@ -96,4 +97,33 @@ function Geometry(){
     scene.add(mesh)
   }
 }
+
+
+//var numGeo = 15
+//var spread = 2000
+//var size = 40
+
+////var sections = 2
+////var geo = new THREE.SphereGeometry(size*0.5, sections, sections)
+//var geo = new THREE.CubeGeometry(size,size,size)
+
+//for (var k=0; k<numGeo; k++){
+  //for (var j=0; j<numGeo; j++){
+    //for (var i=0; i<numGeo; i++){
+      //var mesh = new THREE.Mesh(geo, geoMat)
+      //mesh.position.x = -spread*0.5 + i*spread/numGeo
+      //mesh.position.y = -spread*0.5 + j*spread/numGeo
+      //mesh.position.z = -spread*0.5 + k*spread/numGeo
+      ////mesh.position.z = Math.cos(i/numGeo*Math.PI*10)*500*Math.sin(j/numGeo*Math.PI*10)
+
+      //mesh.rotateX(Math.random()*Math.PI*2)
+      //mesh.rotateY(Math.random()*Math.PI*2)
+      ////geo.computeFaceNormals()
+      ////geo.normalsNeedUpdate = true
+      ////mesh.matrixWorldNeedsUpdate = true
+      //scene.add(mesh)
+    //}
+  //}
+//}
+//
 

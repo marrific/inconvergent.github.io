@@ -27,8 +27,8 @@ console.log('screen ratio', viewRatio, viewWinWidth, viewWinHeight)
     var vendors = ['ms', 'moz', 'webkit', 'o']
     for(var x = 0; x < vendors.length && !window.requestAnimationFrame; ++x) {
         window.requestAnimationFrame = window[vendors[x]+'RequestAnimationFrame']
-        window.cancelAnimationFrame = window[vendors[x]+'CancelAnimationFrame']
-                                   || window[vendors[x]+'CancelRequestAnimationFrame']
+        window.cancelAnimationFrame = window[vendors[x]+'CancelAnimationFrame'] ||
+          window[vendors[x]+'CancelRequestAnimationFrame']
     }
 
     if (!window.requestAnimationFrame)
@@ -137,7 +137,7 @@ $.when(
       40,
       winWidth/winHeight,
       1,
-      5000
+      20000
     )
 
     scene = new THREE.Scene()
@@ -255,7 +255,7 @@ $.when(
     var normalMat = new THREE.MeshNormalMaterial()
 
     var basicMat = new THREE.MeshBasicMaterial({
-        color: 0xAA00BB
+        color: 0x00EEEE
     })
 
     var geoMat = new THREE.ShaderMaterial({
@@ -264,12 +264,14 @@ $.when(
         uniforms: uniforms,
         transparent: true,
     })
+    geoMat.side = THREE.twoSided
     var screenMaterial = new THREE.ShaderMaterial({
         vertexShader: screenVert[0],
         fragmentShader: screenFrag[0],
         uniforms: uniforms,
         transparent: true
     })
+
 
     windowAdjust()
 
@@ -281,44 +283,15 @@ $.when(
     screenQuad.position.z = -100
     sceneScreen.add(screenQuad)
 
-    //var numGeo = 15
-    //var spread = 2000
-    //var size = 40
-
-    ////var sections = 2
-    ////var geo = new THREE.SphereGeometry(size*0.5, sections, sections)
-    //var geo = new THREE.CubeGeometry(size,size,size)
-
-    //for (var k=0; k<numGeo; k++){
-      //for (var j=0; j<numGeo; j++){
-        //for (var i=0; i<numGeo; i++){
-          //var mesh = new THREE.Mesh(geo, geoMat)
-          //mesh.position.x = -spread*0.5 + i*spread/numGeo
-          //mesh.position.y = -spread*0.5 + j*spread/numGeo
-          //mesh.position.z = -spread*0.5 + k*spread/numGeo
-          ////mesh.position.z = Math.cos(i/numGeo*Math.PI*10)*500*Math.sin(j/numGeo*Math.PI*10)
-
-          //mesh.rotateX(Math.random()*Math.PI*2)
-          //mesh.rotateY(Math.random()*Math.PI*2)
-          ////geo.computeFaceNormals()
-          ////geo.normalsNeedUpdate = true
-          ////mesh.matrixWorldNeedsUpdate = true
-          //scene.add(mesh)
-        //}
-      //}
-    //}
-    //
-    //
-    var sphere = new THREE.SphereGeometry(200, 20, 20)
-    var sphereMesh = new THREE.Mesh(sphere, basicMat)
-    scene.add(sphereMesh)
-
+    //var sphere = new THREE.SphereGeometry(200, 20, 20)
+    //var sphereMesh = new THREE.Mesh(sphere, basicMat)
+    //scene.add(sphereMesh)
 
     var geometry = new Geometry()
-    var vnum = 20
-    var gsize = 1000
+    var vnum = 240
+    var gsize = 4000
     geometry.init(vnum, gsize);
-    geometry.addToScene(camera, scene, basicMat)
+    geometry.addToScene(camera, scene, geoMat)
 
     var itt = 0.0
     function animate(){
