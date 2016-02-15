@@ -1,3 +1,4 @@
+
 var camera
 var renderer
 var offset
@@ -129,7 +130,7 @@ $.when(
       window.innerHeight/-2,
       0,
       500
-    );
+    )
     cameraScreen.position.z = 100
 
     camera = new THREE.PerspectiveCamera(
@@ -143,7 +144,7 @@ $.when(
     sceneScreen = new THREE.Scene()
 
     var camTarget = new THREE.Vector3(0,0,0)
-    var camStart = new THREE.Vector3(0,-1700,800)
+    var camStart = new THREE.Vector3(-2000,2000,2000)
     camera.position.x = camStart.x
     camera.position.y = camStart.y
     camera.position.z = camStart.z
@@ -189,7 +190,7 @@ $.when(
       },
       light: {
         type: '4f',
-        value: [0, 5000, 2000, 0.0]
+        value: [2000, -2000, 0, 0.0]
       },
       pixelRatio: {
         type: 'f',
@@ -253,6 +254,10 @@ $.when(
 
     var normalMat = new THREE.MeshNormalMaterial()
 
+    var basicMat = new THREE.MeshBasicMaterial({
+        color: 0xAA00BB
+    })
+
     var geoMat = new THREE.ShaderMaterial({
         vertexShader: geoVert[0],
         fragmentShader: geoFrag[0],
@@ -276,32 +281,44 @@ $.when(
     screenQuad.position.z = -100
     sceneScreen.add(screenQuad)
 
-    var numGeo = 15
-    var spread = 2000
-    var size = 40
+    //var numGeo = 15
+    //var spread = 2000
+    //var size = 40
 
-    //var sections = 2
-    //var geo = new THREE.SphereGeometry(size*0.5, sections, sections)
-    var geo = new THREE.CubeGeometry(size,size,size)
+    ////var sections = 2
+    ////var geo = new THREE.SphereGeometry(size*0.5, sections, sections)
+    //var geo = new THREE.CubeGeometry(size,size,size)
 
-    for (var k=0; k<numGeo; k++){
-      for (var j=0; j<numGeo; j++){
-        for (var i=0; i<numGeo; i++){
-          var mesh = new THREE.Mesh(geo, geoMat)
-          mesh.position.x = -spread*0.5 + i*spread/numGeo
-          mesh.position.y = -spread*0.5 + j*spread/numGeo
-          mesh.position.z = -spread*0.5 + k*spread/numGeo
-          //mesh.position.z = Math.cos(i/numGeo*Math.PI*10)*500*Math.sin(j/numGeo*Math.PI*10)
+    //for (var k=0; k<numGeo; k++){
+      //for (var j=0; j<numGeo; j++){
+        //for (var i=0; i<numGeo; i++){
+          //var mesh = new THREE.Mesh(geo, geoMat)
+          //mesh.position.x = -spread*0.5 + i*spread/numGeo
+          //mesh.position.y = -spread*0.5 + j*spread/numGeo
+          //mesh.position.z = -spread*0.5 + k*spread/numGeo
+          ////mesh.position.z = Math.cos(i/numGeo*Math.PI*10)*500*Math.sin(j/numGeo*Math.PI*10)
 
-          mesh.rotateX(Math.random()*Math.PI*2)
-          mesh.rotateY(Math.random()*Math.PI*2)
-          //geo.computeFaceNormals()
-          //geo.normalsNeedUpdate = true
-          //mesh.matrixWorldNeedsUpdate = true
-          scene.add(mesh)
-        }
-      }
-    }
+          //mesh.rotateX(Math.random()*Math.PI*2)
+          //mesh.rotateY(Math.random()*Math.PI*2)
+          ////geo.computeFaceNormals()
+          ////geo.normalsNeedUpdate = true
+          ////mesh.matrixWorldNeedsUpdate = true
+          //scene.add(mesh)
+        //}
+      //}
+    //}
+    //
+    //
+    var sphere = new THREE.SphereGeometry(200, 20, 20)
+    var sphereMesh = new THREE.Mesh(sphere, basicMat)
+    scene.add(sphereMesh)
+
+
+    var geometry = new Geometry()
+    var vnum = 20
+    var gsize = 1000
+    geometry.init(vnum, gsize);
+    geometry.addToScene(camera, scene, basicMat)
 
     var itt = 0.0
     function animate(){
@@ -334,7 +351,6 @@ $.when(
       uniforms.mode.value = 1.0
       renderer.render(scene, camera, normalTexture, true)
       uniforms.normalTexture.value = normalTexture
-
 
       renderer.setClearColor(new THREE.Color(0xFFFFFF), 1.0)
       uniforms.screenTexture.value = screenTexture
