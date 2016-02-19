@@ -15,7 +15,7 @@ void main(){
 
   float n = 30.0;
 
-  pos += vec3(cos(itt/n), sin(itt/n), tan(itt/n))*10.0;
+  //pos += vec3(cos(itt/n), sin(itt/n), tan(itt/n))*10.0;
 
   vPosition = vec3(modelMatrix * vec4(pos,1.));
   // TODO: find out how this is supposed to be done

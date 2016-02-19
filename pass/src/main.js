@@ -294,7 +294,7 @@ $.when(
     //geoPlane.addToScene(camera, scene, geoMat)
 
     var geoTris = new Triangles()
-    var tnum = 240
+    var tnum = 30000
     var tsize = 600
     geoTris.init(tnum, tsize);
     geoTris.addToScene(camera, scene, geoMat)

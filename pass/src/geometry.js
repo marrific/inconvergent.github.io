@@ -110,63 +110,35 @@ function Triangles(){
     this.tnum = tnum
     this.size = size
 
-    this.positions = new Float32Array(3*vnum)
-    this.normals = new Float32Array(3*vnum)
-    this.colors = new Float32Array(3*vnum)
+    this.positions = new Float32Array(3*3*vnum)
+    //this.normals = new Float32Array(3*vnum)
+    //this.colors = new Float32Array(3*vnum)
     this.indices = new Uint16Array(3*tnum)
 
-    this.ndpositions = ndarray(this.positions,[vnum,vnum,3])
-    this.ndnormals = ndarray(this.normals,[vnum,vnum,3])
-    this.ndcolors = ndarray(this.colors,[vnum,vnum,3])
-    this.ndindices = ndarray(this.indices,[tnum,3])
-
-    var i
-    var rgb = [0.2,0.6,0.8]
-    for (j=0;j<vnum;j++){
-      for (i=0;i<3;i++){
-
-        var x = Math.random()*size
-        var y = Math.random()*size
-        var z = 0
-
-        this.ndpositions.set(i,j,0,x)
-        this.ndpositions.set(i,j,2,y)
-        this.ndpositions.set(i,j,1,z)
-
-        this.ndnormals.set(i,j,0,0)
-        this.ndnormals.set(i,j,1,0)
-        this.ndnormals.set(i,j,2,1)
-
-        this.ndcolors.set(i,j,0,rgb[0])
-        this.ndcolors.set(i,j,1,rgb[1])
-        this.ndcolors.set(i,j,2,rgb[2])
+    var n = 0
+    for (var j=0;j<tnum;j++){
+      var x = (1.0 -2.0*Math.random())*size * 0.5
+      var y = (1.0 -2.0*Math.random())*size * 0.5
+      var z = (1.0 -2.0*Math.random())*size * 0.5
+      for (var i=0;i<3;i++){
+        this.positions[n] = x + (1.0 - 2*Math.random()) * 10
+        this.positions[n+1] = y + (1.0 - 2*Math.random()) * 10
+        this.positions[n+2] = z + (1.0 - 2*Math.random()) * 10
+        n += 3
       }
     }
 
-    //this.texture = new THREE.DataTexture(this.tex,
-                                         //this.ndtex.shape[0],
-                                         //this.ndtex.shape[1],
-                                         //THREE.RGBFormat)
-    //this.texture.needsUpdate = true
-
     var tri = 0
-    for (j=0;j<vnum-1;j++){
-      var a = (3*tri)
-      var b = (3*tri)+1
-      var c = (3*tri)+2
-
-      this.ndindices.set(tri,0,a)
-      this.ndindices.set(tri,1,b)
-      this.ndindices.set(tri,2,c)
-      tri += 1
+    for (j=0;j<tnum-1;j++){
+      this.indices[j] = j
     }
 
     this.geometry = new THREE.BufferGeometry()
 
-    this.geometry.setIndex(new THREE.BufferAttribute(this.indices, 1))
+    //this.geometry.setIndex(new THREE.BufferAttribute(this.indices, 1))
     this.geometry.addAttribute('position', new THREE.BufferAttribute(this.positions, 3))
-    this.geometry.addAttribute('normal', new THREE.BufferAttribute(this.normals, 3))
-    this.geometry.addAttribute('color', new THREE.BufferAttribute(this.colors, 3))
+    //this.geometry.addAttribute('normal', new THREE.BufferAttribute(this.normals, 3))
+    //this.geometry.addAttribute('color', new THREE.BufferAttribute(this.colors, 3))
     this.geometry.computeBoundingSphere()
     this.geometry.computeFaceNormals()
     this.geometry.computeVertexNormals()
