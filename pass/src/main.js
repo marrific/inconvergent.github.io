@@ -287,11 +287,17 @@ $.when(
     //var sphereMesh = new THREE.Mesh(sphere, basicMat)
     //scene.add(sphereMesh)
 
-    var geometry = new Geometry()
-    var vnum = 240
-    var gsize = 4000
-    geometry.init(vnum, gsize);
-    geometry.addToScene(camera, scene, geoMat)
+    //var geoPlane = new Plane()
+    //var vnum = 240
+    //var gsize = 4000
+    //geoPlane.init(vnum, gsize);
+    //geoPlane.addToScene(camera, scene, geoMat)
+
+    var geoTris = new Triangles()
+    var tnum = 240
+    var tsize = 600
+    geoTris.init(tnum, tsize);
+    geoTris.addToScene(camera, scene, geoMat)
 
     var itt = 0.0
     function animate(){
